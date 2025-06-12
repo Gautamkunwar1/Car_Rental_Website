@@ -1,5 +1,5 @@
 import { useState, type JSX } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Login():JSX.Element {
@@ -30,7 +30,7 @@ function Login():JSX.Element {
                         />
                         <p className="text-center mt-3">
                             Don't have an account?{" "}
-                            {/* <Link to="" className="text-white ">Sign Up</Link> */}
+                            <Link to="/signup" className="text-white ">Sign Up</Link>
                         </p>
                     </div>
 
