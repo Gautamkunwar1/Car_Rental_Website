@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "utils/signupValidation.ts"]
+  "include": ["src", "src/utils/signupValidation.ts"]
 }

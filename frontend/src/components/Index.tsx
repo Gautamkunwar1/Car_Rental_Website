@@ -70,9 +70,9 @@ function Index(): JSX.Element {
 
     return (
         <>
-            <MainSection imgUrl={imageUrl} heading={heading} subheading={subheading} features={features} showBookingBox={true}/>
+            <MainSection imgUrl={imageUrl} heading={heading} subheading={subheading} features={features}isHome={true} showBookingBox={true}/>
             <h1 className="text-center mt-4 text-2xl font-bold"> Our Services</h1>
-            <div className="grid lg:grid-cols-3 md:grid-cols-2  sm:grid-cols-2 text-center m-4 gap-2">
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 max-[770px]:justify-items-center sm:grid-cols-2 text-center m-4 gap-2">
             {cardItem.map((card) => (
                 <Card key={card.id} title="" imgUrl={card.imgUrl} btnText={card.btnText} head={card.head} desc={card.desc} />
             ))}

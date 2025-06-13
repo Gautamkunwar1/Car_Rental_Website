@@ -1,11 +1,14 @@
 import type { JSX } from "react";
+import { Link } from "react-router-dom";
 
-interface CardDetail {
+export interface CardDetail {
+    id?:number,
     imgUrl: string;
     title: string;
     head: string;
     desc: string;
     btnText: string;
+    navigateTo?:string,
 }
 
 function Card({ imgUrl, title, head, desc, btnText }: CardDetail): JSX.Element {
@@ -26,9 +29,11 @@ function Card({ imgUrl, title, head, desc, btnText }: CardDetail): JSX.Element {
                 <h3 className="text-md font-bold text-blue-600 mb-1">{head}</h3>
                 <p className="text-gray-600 mb-4">{desc}</p>
 
-                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-200 w-full">
+                <Link to =  "/rentalForm"> 
+                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-200 w-full cursor-pointer">
                     {btnText}
                 </button>
+                </Link>
             </div>
         </div>
     );

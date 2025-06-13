@@ -8,6 +8,9 @@ interface NavLink{
     name: string;
     to: string;
 }
+
+const isAdmin: boolean = true;
+
 function Navbar():JSX.Element {
     const navLinks:NavLink[] = [
         {name:"Home",to:"/"},
@@ -15,7 +18,7 @@ function Navbar():JSX.Element {
         {name:"Services",to:"/services"},
         {name:"Blog", to:"/blog"},
         {name:"Contact",to:"/contact"},
-        {name:"Rental Cart",to:"/rental"}
+        {name:"Rental Cart",to:"/rentalCart"}
     ]
     
 const [hamburgerOpen, setHamburgerOpen] = useState<boolean>(false);
@@ -36,7 +39,7 @@ return (
         </div>
         
         <div>
-                <ul className={`min-[740px]:flex min-[740px]:pl-5 gap-6.5 pt-2 text-white font-medium absolute  w-full min-[740px]:static h-screen min-[740px]:h-auto min-[740px]:pb-4 max-[740px]:pl-5 ${hamburgerOpen ? 'block' : 'hidden'}`}>
+                <ul className={`min-[740px]:flex min-[740px]:pl-5 gap-6.5 pt-2 max-[722px]:bg-blue-400  text-white font-medium absolute  w-full min-[740px]:static h-screen min-[740px]:h-[50%] min-[740px]:pb-4 max-[740px]:pl-5 ${hamburgerOpen ? 'block' : 'hidden'}`}>
                     {navLinks.map((Item) => (
                         <li key={Item.name} className="xl:hover:text-yellow-300 hover:font-bold cursor-pointer">
                             <Link to={Item.to}>{Item.name}</Link>

@@ -1,7 +1,7 @@
 import { useState, type JSX } from "react";
-import { Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import {type FormData, validateForm, type Errors } from "../../utils/signupValidation";
+import { Link } from "react-router-dom";
+import { validateForm, type Errors, type FormData } from "../utils/signupValidation";
 
 
 function Signup():JSX.Element{
