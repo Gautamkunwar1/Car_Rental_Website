@@ -9,7 +9,7 @@ interface NavLink{
     to: string;
 }
 
-const isAdmin: boolean = true;
+// const isAdmin: boolean = true;
 
 function Navbar():JSX.Element {
     const navLinks:NavLink[] = [

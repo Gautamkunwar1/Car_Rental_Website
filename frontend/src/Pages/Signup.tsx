@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import { validateForm, type Errors, type FormData } from "../utils/signupValidation";
 
 
+interface signupData {
+    name:string,
+    email:string,
+    password :string,
+}
 function Signup():JSX.Element{
     const [formData,setFormData] = useState <FormData>({
         name :"",
@@ -25,8 +30,32 @@ function Signup():JSX.Element{
         const validateErrors = validateForm(formData);
         setErrors(validateErrors);
 
+        async function signupApi(data:signupData):Promise<void>{
+            try {
+                const response  = await fetch("/api/auth/signup",{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    credentials:"include",
+                    body:JSON.stringify(data)
+                });
+                if(!response.ok) throw new Error("Signup failed")
+                    const result = await response.json();
+                    console.log("Signup successful",result)
+            } catch (error) {
+                console.error("Error during Signup.",error)
+            }
+            
+        }
         if(Object.keys(validateErrors).length === 0){
-            console.log("Formdata is submitting")
+            signupApi(formData);
+            setFormData({
+                name:"",
+                email:"",
+                password:"",
+                cpassword:"",
+            })
         }
     }
 

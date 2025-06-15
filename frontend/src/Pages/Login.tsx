@@ -2,14 +2,40 @@ import { useState, type JSX } from "react";
 import { Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
+interface dataType {
+    email:string,
+    password : string,
+}
 function Login():JSX.Element {
     const [userEmail,setUserEmail] = useState<string>("");
     const [password,setPassword] = useState<string>("");
     const [showPassword,setShowPassword] = useState<boolean>(false);
+
+    // async function handleSubmit():void{
+    //     loginApi(FormData)
+    // }
+
+    async function loginApi(data:dataType) :Promise<void>{
+        try {
+            const response = await fetch("/api/auth/login",{
+                method:'POST',
+                headers :{
+                    "Content-Type" : "application/json",
+                },
+                credentials : "include",
+                body:JSON.stringify(data),
+            });
+            if(!response.ok) throw new Error("Login failed")
+                    const result = await response.json();
+                    console.log("Login successful",result)
+        } catch (error) {
+            console.error("Error during Login.",error)
+        }
+    }
     return (
         <>
             <div className="bg-[url(src/assets/blueCar.jpg)] bg-center bg-no-repeat bg-cover flex justify-center items-center h-[70vh]">
-                <form className="flex justify-center items-center h-[80%] w-[40%] bg-[#20202063] border-1 shadow-2xl text-white">
+                <form className="flex justify-center items-center h-[80%] w-[40%] bg-[#20202063] border-1 shadow-2xl text-white" onSubmit={handleSubmit}>
                     <div className="w-full p-7 mb-5 mt-5">
                         <label htmlFor="email">Email:</label>
                         <input type="email" name="email" id="email" placeholder="Enter Email" className="bg-white p-1.5 w-full mb-2 outline-0 text-black" value={userEmail} onChange={(e)=>setUserEmail(e.target.value)} required />
