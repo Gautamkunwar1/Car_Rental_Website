@@ -2,13 +2,9 @@ import { useState, type JSX } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { validateForm, type Errors, type FormData } from "../utils/signupValidation";
+import useAuthStore from "../store/AuthStore";
 
 
-interface signupData {
-    name:string,
-    email:string,
-    password :string,
-}
 function Signup():JSX.Element{
     const [formData,setFormData] = useState <FormData>({
         name :"",
@@ -20,36 +16,21 @@ function Signup():JSX.Element{
     const[showPassword,setShowPassword] = useState<boolean> (false);
     const[cShowPassword,cSetShowPassword] = useState<boolean>(false);
 
+    const signup = useAuthStore((state)=>state.signup);
+
     function handleChange(e:React.ChangeEvent<HTMLInputElement>):void{
         const{name,value}= e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     }
 
-    function handleSubmit(e:React.FormEvent<HTMLFormElement>):void{
+    async function handleSubmit(e:React.FormEvent<HTMLFormElement>):Promise<void>{
         e.preventDefault();
         const validateErrors = validateForm(formData);
         setErrors(validateErrors);
 
-        async function signupApi(data:signupData):Promise<void>{
-            try {
-                const response  = await fetch("/api/auth/signup",{
-                    method:'POST',
-                    headers:{
-                        'Content-Type':'application/json'
-                    },
-                    credentials:"include",
-                    body:JSON.stringify(data)
-                });
-                if(!response.ok) throw new Error("Signup failed")
-                    const result = await response.json();
-                    console.log("Signup successful",result)
-            } catch (error) {
-                console.error("Error during Signup.",error)
-            }
-            
-        }
         if(Object.keys(validateErrors).length === 0){
-            signupApi(formData);
+            const{email,password,name} = formData;
+            await signup({name,email,password,confirmPassword:formData.cpassword})
             setFormData({
                 name:"",
                 email:"",

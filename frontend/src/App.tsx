@@ -1,41 +1,87 @@
-import { BrowserRouter,Routes,Route } from "react-router-dom";
 import type { JSX } from "react";
-import Home from "./Pages/Home";
-import Login from "./Pages/Login";
-import Signup from "./Pages/Signup";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import About from "./Pages/About";
-import Service from "./Pages/Service";
+import Admin from "./Pages/Admin";
 import Blog from "./Pages/Blog";
 import Contact from "./Pages/Contact";
+import Home from "./Pages/Home";
+import Login from "./Pages/Login";
+import NotFoundPage from "./Pages/NotFoundPage";
+import Service from "./Pages/Service";
+import Signup from "./Pages/Signup";
+import AdminRoute from "./Route/AdminRoute";
+import UserRoute from "./Route/UserRoute";
+import AdminInfo from "./components/AdminInfo";
+import AdminSideBar from "./components/AdminSideBar";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 import RentalCart from "./components/RentalCart";
 import RentalForm from "./components/RentalForm";
-import NotFoundPage from "./Pages/NotFoundPage";
-import Admin from "./Pages/Admin";
+import useAuthStore from "./store/AuthStore";
 
+export default function App(): JSX.Element {
+  const user = useAuthStore((state) => state.user);
+  const isAdmin = user?.role === 'admin';
 
-export default function App():JSX.Element{
-  
-  return(
+  return (
     <BrowserRouter>
-    <Navbar/>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/services" element={<Service />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/rentalCart" element={<RentalCart />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/rentalForm" element={<RentalForm />} />
-        <Route path="*" element={<NotFoundPage />} />
+      {!isAdmin && <Navbar />}
 
-        <Route path="/admin" element={<Admin />} />
-  
-      </Routes>
-      <Footer/>
+      <div className={isAdmin ? "flex" : ""}>
+        {isAdmin && <AdminSideBar />}
+        <div>
+          {isAdmin && <AdminInfo/>}
+          <div>
+
+    <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Service />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+          {/* Protected User Routes */}
+      <Route path="/rentalCart"
+            element={
+              <UserRoute>
+                <RentalCart />
+              </UserRoute>
+            }
+          />
+      <Route path="/rentalForm"
+            element={
+              <UserRoute>
+                <RentalForm />
+              </UserRoute>
+            }
+          />
+      <Route path="/admin"
+            element={
+              <AdminRoute>
+                <Admin />
+              </AdminRoute>
+            }
+          />
+
+      <Route path="/admin/clients"
+            element={
+              <AdminRoute>
+                <Admin />
+              </AdminRoute>
+            }
+          />
+
+      <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+          </div>
+          
+        </div>
+        
+      </div>
+
+      {!isAdmin && <Footer />}
     </BrowserRouter>
-  )
+  );
 }

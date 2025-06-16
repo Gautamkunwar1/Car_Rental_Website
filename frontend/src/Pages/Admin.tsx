@@ -16,10 +16,10 @@ function Admin():JSX.Element {
     ];
     return (
         <>
-        <div className='flex'>
+        {/* <div className='flex'>
             <Sidebar/>
             <AdminInfo/>
-        </div>
+        </div> */}
             
             <div className="flex flex-col w-[75vw] h-[89vh] bg-[#cad9f371]">
                 <div className='flex gap-2'>
