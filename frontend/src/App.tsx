@@ -18,6 +18,7 @@ import Navbar from "./components/Navbar";
 import RentalCart from "./components/RentalCart";
 import RentalForm from "./components/RentalForm";
 import useAuthStore from "./store/AuthStore";
+import AllUserList from "./Pages/AllUserList";
 
 export default function App(): JSX.Element {
   const user = useAuthStore((state) => state.user);
@@ -67,9 +68,7 @@ export default function App(): JSX.Element {
 
       <Route path="/admin/clients"
             element={
-              <AdminRoute>
-                <Admin />
-              </AdminRoute>
+                <AllUserList />
             }
           />
 

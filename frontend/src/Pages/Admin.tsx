@@ -1,10 +1,9 @@
 import { type JSX } from 'react'
-import Sidebar from '../components/AdminSideBar'
-import AdminInfo from '../components/AdminInfo'
 import { FaCar, FaRupeeSign } from "react-icons/fa";
 import { MdCarRental, MdEventAvailable } from "react-icons/md";
 import CardDashboard from '../components/DashboardCard'
 import type{ cardDashboard } from '../components/DashboardCard';
+import CarBookingBarChart from '../components/AdminBarChart';
 
 
 function Admin():JSX.Element {
@@ -15,14 +14,9 @@ function Admin():JSX.Element {
         { id: "available",symbol:<MdEventAvailable />, head: "Available Cars", detail: "45",growth:"5% this quarter"  },
     ];
     return (
-        <>
-        {/* <div className='flex'>
-            <Sidebar/>
-            <AdminInfo/>
-        </div> */}
-            
+        <> 
             <div className="flex flex-col w-[75vw] h-[89vh] bg-[#cad9f371]">
-                <div className='flex gap-2'>
+                <div className='flex gap-4 p-4 mt-4'>
                 {
                 cards.map((item)=>{
                     return(
@@ -31,7 +25,8 @@ function Admin():JSX.Element {
                 })
             }
             </div>
-            </div>
+            <CarBookingBarChart/>
+        </div>
             
             
         </>
