@@ -19,6 +19,8 @@ import RentalCart from "./components/RentalCart";
 import RentalForm from "./components/RentalForm";
 import useAuthStore from "./store/AuthStore";
 import AllUserList from "./Pages/AllUserList";
+import AllCarList from "./Pages/AllCarList";
+import AddCar from "./Pages/AddCar";
 
 export default function App(): JSX.Element {
   const user = useAuthStore((state) => state.user);
@@ -68,10 +70,12 @@ export default function App(): JSX.Element {
 
       <Route path="/admin/clients"
             element={
-                <AllUserList />
+              <AdminRoute><AllUserList /></AdminRoute>
             }
           />
 
+      <Route path = "/admin/allcars" element={<AdminRoute><AllCarList/></AdminRoute>}/>
+      <Route path = "/admin/addCar" element={<AdminRoute><AddCar/></AdminRoute>}/>
       <Route path="*" element={<NotFoundPage />} />
         </Routes>
           </div>

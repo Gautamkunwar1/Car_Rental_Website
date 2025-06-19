@@ -15,8 +15,6 @@ export default function AdminRoute({ children }: AdminRouteProps) {
             navigate("/login");
         } else if (user.role !== "admin") {
             navigate("/");
-        }else{
-            navigate("/admin")
         }
     }, [user, navigate]);
 
