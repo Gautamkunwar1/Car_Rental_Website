@@ -43,9 +43,18 @@ export const addCar = async (req, res) => {
 
 export const allCars = async(req,res) =>{
     try {
-        const allCars = await CarDetail.find();
-        return sendResponse(res,200,true,"data found successfully",allCars)
+        const page = parseInt(req.query.page) || 1;
+        const limit = 5;
+        const totalCars = await CarDetail.countDocuments();
+
+        const cars = await CarDetail.find().skip((page-1)*limit).limit(limit)
+        return sendResponse(res,200,true,"data found successfully",{
+            cars,totalCars,
+            totalPages:Math.ceil(totalCars/limit),
+            currentPage:page
+        })
     } catch (error) {
+        console.error("Error in allCars:",error.message);
         return sendResponse(res,500,false,"Internal Server Error")
     }
 }
