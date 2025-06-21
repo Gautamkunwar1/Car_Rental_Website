@@ -58,3 +58,32 @@ export const allCars = async(req,res) =>{
         return sendResponse(res,500,false,"Internal Server Error")
     }
 }
+
+export const editCar = async(req,res)=>{
+    const {id} = req.params;
+    const carData = req.body;
+    try {
+        const editedCar = await CarDetail.findByIdAndUpdate(id,carData,{new:true});
+        if(editedCar){
+            return sendResponse(res,201,true,"Book details edited successfully",editedCar);
+        }else{
+            return sendResponse(res,404,false,"Car not found")
+        }
+    } catch (error) {
+        return sendResponse(res,500,false,"Internal Server Error");
+    }
+}
+
+export const deleteCar = async(req,res)=>{
+    const {id} = req.params;
+    try {
+        const deletedCar = await CarDetail.findByIdAndDelete(id);
+        if(deletedCar) {
+            return sendResponse(res,200,true,"Car deleted successfully");
+            }else{
+                return sendResponse(res,400,false,"Car not found")
+            }
+    } catch (error) {
+        return sendResponse(res,500,false,"Internal Server Error")
+    }
+}

@@ -1,11 +1,12 @@
 import { useState, type JSX } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { validateForm, type Errors, type FormData } from "../utils/signupValidation";
 import useAuthStore from "../store/AuthStore";
 
 
 function Signup():JSX.Element{
+    const navigate  = useNavigate()
     const [formData,setFormData] = useState <FormData>({
         name :"",
         email:"",
@@ -38,6 +39,7 @@ function Signup():JSX.Element{
                 cpassword:"",
             })
         }
+        navigate("/login")
     }
 
 
