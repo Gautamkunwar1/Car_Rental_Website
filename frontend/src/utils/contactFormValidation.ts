@@ -1,13 +1,13 @@
 export interface FormData{
     name:string,
     email:string,
-    message:string
+    msg:string
 }
 
 export interface Errors{
     name?:string,
     email?:string,
-    message?:string
+    msg?:string
 }
 
 export function validateForm(data:FormData):Errors{
@@ -25,8 +25,8 @@ export function validateForm(data:FormData):Errors{
         errors.email = "provide a valid email"
     }
 
-    if(!data.message.trim()){
-        errors.message = "Message field can't sent to be empty"
+    if(!data.msg.trim()){
+        errors.msg = "Message field can't sent to be empty"
     }
 
     return errors;

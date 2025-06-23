@@ -2,7 +2,8 @@ import { useState, type JSX } from "react"
 import { RxHamburgerMenu } from "react-icons/rx";
 import Logo from "./Logo";
 import SearchBox from "./Searchbox";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuthStore from "../store/AuthStore";
 
 interface NavLink{
     name: string;
@@ -12,6 +13,8 @@ interface NavLink{
 // const isAdmin: boolean = true;
 
 function Navbar():JSX.Element {
+    const {user,logout} = useAuthStore();
+    const navigate = useNavigate()
     const navLinks:NavLink[] = [
         {name:"Home",to:"/"},
         {name:"About",to:"/about"},
@@ -24,6 +27,10 @@ function Navbar():JSX.Element {
 const [hamburgerOpen, setHamburgerOpen] = useState<boolean>(false);
     const toggleHamburger = ():void=>{
         setHamburgerOpen((prev)=>!prev)
+    }
+    const handleLogout = ()=>{
+        logout();
+        navigate("/login")
     }
 return (
     <nav className="backdrop-blur bg-blue-700/30 xl:flex justify-around items-center sticky z-10 top-0">
@@ -45,7 +52,20 @@ return (
                             <Link to={Item.to}>{Item.name}</Link>
                         </li>
                     ))}
-                    <li className="xl:hover:text-yellow-300 hover:font-bold cursor-pointer"><Link to="/login">Login/Logout</Link></li>
+                    {user ? (
+                            <li className="flex items-center font-semibold text-base  hover:text-yellow-300 hover:font-bold cursor-pointer">
+                                <span>Welcome, {user.name}</span>
+                                <button onClick={handleLogout} className="cursor-pointer ml-2">
+                                / Logout
+                                </button>
+                            </li>
+                        ) : (
+                            <li>
+                                <Link to="/login" className=" font-medium hover:text-yellow-300">
+                                    Login
+                                </Link>
+                            </li>
+                        )}
                 </ul>
             </div>
     </nav>

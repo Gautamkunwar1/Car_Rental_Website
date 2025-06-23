@@ -3,8 +3,14 @@ import { sendResponse } from "../utils/response.util.js";
 
 export const allUsers = async(req,res)=>{
     try {
-        const users = await User.find();
-        return sendResponse(res,200,true,"Data found successfully",users)
+        const page = parseInt(req.query.page) || 1;
+        const limit = 8;
+        const totalUsers = await User.countDocuments();
+        const users = await User.find().skip((page-1)*limit).limit(limit);
+        return sendResponse(res,200,true,"Data found successfully",{
+        users,totalUsers,
+        totalPages:Math.ceil(totalUsers/limit),
+        currentPage:page})
     } catch (error) {
         return sendResponse(res,500,false,"Server Error")
     }

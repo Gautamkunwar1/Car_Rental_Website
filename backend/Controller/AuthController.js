@@ -85,18 +85,18 @@ export const logout = async(req,res)=>{
     const accessToken = req.cookies.accessToken;
     const refreshToken = req.cookies.refreshToken;
 
-    if(!refreshToken || !accessToken) return sendResponse(res,404,false,"Token not found");
+    if(!refreshToken || !accessToken) return sendResponse(res,400,false,"Token not found");
 
     res.clearCookie("accessToken",{
         httpOnly:true,
         secure:process.env.NODE_ENV === "production" ? true : false,
-        sameStrict :"strict",
+        sameSite :"strict",
     })
 
     res.clearCookie("refreshToken",{
         httpOnly : true,
         secure : process.env.NODE_ENV === "production" ? true: false,
-        sameStrict : "strict"
+        sameSite : "strict"
     })
 
     sendResponse(res,200,true,"User logged out successfully")

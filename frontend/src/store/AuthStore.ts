@@ -25,6 +25,7 @@ interface AuthState {
     checkingAuth: boolean;
     signup: (data: SignupData) => Promise<void>;
     login: (data: LoginData) => Promise<{ role: string | null }>;
+    logout: ()=>Promise<void>;
 }
 
 const useAuthStore = create<AuthState>((set, get) => ({
@@ -81,6 +82,23 @@ const useAuthStore = create<AuthState>((set, get) => ({
             set({ loading: false });
             console.error("Error during login:", error);
             return { role: null };
+        }
+    },
+    logout: async()=>{
+        try {
+            set({loading:false,user:null})
+            const response = await fetch("/api/auth/logout",{
+                method:"POST",
+                headers:{
+                    "Content-type":"application/json"
+                },
+                credentials:"include"
+            })
+            if (!response.ok) throw new Error("Logout failed");
+            set({user:null,loading:false})
+        } catch (error) {
+            set({loading:false})
+            console.error("Error :",error)
         }
     }
 }));

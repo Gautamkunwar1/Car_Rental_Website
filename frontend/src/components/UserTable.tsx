@@ -15,27 +15,38 @@ export default function UserTable(): JSX.Element {
     const [tableRowData, setTableRowData] = useState<User[]>([]);
     const [refresh, setRefresh] = useState<boolean>(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedUser,setSelectedUser] = useState<User|null>(null)
+    const [selectedUser,setSelectedUser] = useState<User|null>(null);
+    const [currentPage,setCurrentPage] = useState<number>(1);
+    const [totalPages,setTotalPages] = useState<number>(1);
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await fetch("/api/users/allUser", {
+                const res = await fetch(`/api/users/allUser?page=${currentPage}`, {
                     method: "GET",
                     headers: {
                         "Content-type": "application/json"
                     }
                 })
                 const response = await res.json()
-                const users: User[] = response.data;
-                console.log(users)
-                setTableRowData(users)
+                const {users,totalPages,currentPage:serverPage} = response.data
+                setTableRowData(users);
+                setCurrentPage(currentPage);
+                setTotalPages(totalPages)
             } catch (error) {
                 console.error("Failed to fetch users", error)
             }
         }
         fetchUser()
-    }, [refresh])
+    }, [currentPage,refresh])
+
+    const handlePrev = ()=>{
+        if(currentPage >1) setCurrentPage((prev)=>prev-1)
+    }
+
+    const handleNext = ()=>{
+        if(currentPage<totalPages) setCurrentPage((prev)=>prev+1)
+    }
 
     const openDeleteModel = (user: User) => {
     setSelectedUser(user);
@@ -91,6 +102,14 @@ export default function UserTable(): JSX.Element {
                     ))}
                 </tbody>
             </table>
+            <div className="flex justify-end mr-5 items-center gap-4 mt-10">
+                <button className="px-4 py-2 bg-blue-400 text-white disabled:opacity-50 cursor-pointer" onClick={handlePrev}
+                    disabled={currentPage === 1}>Prev</button>
+                <span>Page {currentPage} of {totalPages}</span>
+                <button className="px-4 py-2 bg-blue-400 text-white disabled:opacity-50 cursor-pointer" onClick={handleNext}
+                    disabled={currentPage === totalPages}>Next</button>
+            </div>
+
             <DeleteModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onConfirm={()=>handleClick(selectedUser)}
                 message={`Are you sure you want to delete "${selectedUser?.name}"?`}
             />

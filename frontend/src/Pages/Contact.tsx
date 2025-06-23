@@ -5,7 +5,7 @@ function Contact(): JSX.Element {
     const [formData, setFormData] = useState<FormData>({
         name: "",
         email: "",
-        message: "",
+        msg: "",
     })
     const [errors, setErrors] = useState<Errors>({})
 
@@ -21,8 +21,26 @@ function Contact(): JSX.Element {
         setErrors(validateErrors);
 
         if (Object.keys(validateErrors).length === 0) {
-            console.log("Form data is submitting")
+            const addMsg = async(formData:FormData):Promise<void> =>{
+                try {
+                    const response = await fetch("/api/msg/addMsg",{
+                    method:"POST",
+                    headers:{
+                        "Content-type":"application/json"
+                    },
+                    body:JSON.stringify(formData)
+                })
+                if(!response.ok) throw new Error("Something went wrong");
+                const result = await response.json();
+                console.log("Message send successfully",result);
+                setFormData({name:"",email:"",msg:""})
+                } catch (error) {
+                    console.error("Error:",error)
+                }
+            }
+            addMsg(formData);
         }
+        
     }
     return (
         <>
@@ -35,16 +53,16 @@ function Contact(): JSX.Element {
                         <div className=" w-full p-7 mb-5 mt-5">
                             <h1 className="text-center text-xl text-black font-semibold">Contact Us</h1>
                             <label htmlFor="name">Name:</label>
-                            <input type="text" name="name" id="name" placeholder="Enter Username" className="p-1.5 w-full mb-2 text-black bg-[#fdf7f7dc]" value={formData.name} onChange={handleChange} />
+                            <input type="text" name="name" id="name" placeholder="Enter Username" className="p-1.5 w-full mb-2 text-black bg-[#fdf7f7dc] outline-0" value={formData.name} onChange={handleChange} />
                             <span className="text-red-500">{errors.name}</span><br />
 
                             <label htmlFor="email">Email:</label>
-                            <input type="email" name="email" id="email" placeholder="Enter your email" className="bg-[#fdf7f7dc] p-1.5 mb-2 w-full text-black" value={formData.email} onChange={handleChange} />
+                            <input type="email" name="email" id="email" placeholder="Enter your email" className="bg-[#fdf7f7dc] p-1.5 mb-2 w-full text-black outline-0" value={formData.email} onChange={handleChange} />
                             <span className="text-red-500">{errors.email}</span><br />
 
                             <label htmlFor="message">Message:</label>
-                            <textarea name="message" id="message" className="bg-[#fdf7f7dc] w-full text-black pl-3" placeholder="Enter Message" value={formData.message} onChange={handleChange}></textarea>
-                            <span className="text-red-500">{errors.message}</span><br />
+                            <textarea name="msg" id="msg" className="bg-[#fdf7f7dc] w-full text-black pl-3 outline-0" placeholder="Enter Message" value={formData.msg} onChange={handleChange}></textarea>
+                            <span className="text-red-500">{errors.msg}</span><br />
 
                             <input type="submit" className="w-full bg-green-500 text-white font-bold mt-5 p-2 rounded-lg hover:bg-green-800 cursor-pointer" />
 

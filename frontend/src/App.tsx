@@ -21,6 +21,7 @@ import useAuthStore from "./store/AuthStore";
 import AllUserList from "./Pages/AllUserList";
 import AllCarList from "./Pages/AllCarList";
 import AddCar from "./Pages/AddCar";
+import MessageTable from "./components/MessageTable";
 
 export default function App(): JSX.Element {
   const user = useAuthStore((state) => state.user);
@@ -76,6 +77,7 @@ export default function App(): JSX.Element {
 
       <Route path = "/admin/allcars" element={<AdminRoute><AllCarList/></AdminRoute>}/>
       <Route path = "/admin/addCar" element={<AdminRoute><AddCar/></AdminRoute>}/>
+      <Route path = "/admin/messages" element={<AdminRoute><MessageTable/></AdminRoute>}/>
       <Route path="*" element={<NotFoundPage />} />
         </Routes>
           </div>
