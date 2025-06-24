@@ -35,7 +35,7 @@ const useAuthStore = create<AuthState>((set, get) => ({
 
     signup: async ({ name, email, password, confirmPassword }) => {
         try {
-            set({ loading: true });
+            set({ loading: true,checkingAuth:true });
             const response = await fetch("/api/auth/signup", {
                 method: "POST",
                 headers: {
@@ -49,16 +49,16 @@ const useAuthStore = create<AuthState>((set, get) => ({
 
             const result = await response.json();
             console.log("Signup successful", result);
-            set({ loading: false });
+            set({ loading: false,checkingAuth:false });
         } catch (error) {
-            set({ loading: false });
+            set({ loading: false, checkingAuth:false });
             console.error("Error during Signup:", error);
         }
     },
 
     login: async ({ email, password }) => {
         try {
-            set({ loading: true });
+            set({ loading: true, checkingAuth:true });
 
             const response = await fetch("/api/auth/login", {
                 method: "POST",
@@ -74,12 +74,12 @@ const useAuthStore = create<AuthState>((set, get) => ({
             const result = await response.json();
             const userData: User = result.data;
 
-            set({ user: userData, loading: false });
+            set({ user: userData, loading: false,checkingAuth:false });
 
             console.log("Login Successful", userData);
             return { role: userData.role };
         } catch (error) {
-            set({ loading: false });
+            set({ loading: false, checkingAuth:false });
             console.error("Error during login:", error);
             return { role: null };
         }
@@ -95,9 +95,9 @@ const useAuthStore = create<AuthState>((set, get) => ({
                 credentials:"include"
             })
             if (!response.ok) throw new Error("Logout failed");
-            set({user:null,loading:false})
+            set({user:null,loading:false,checkingAuth:false})
         } catch (error) {
-            set({loading:false})
+            set({loading:false,checkingAuth:false})
             console.error("Error :",error)
         }
     }

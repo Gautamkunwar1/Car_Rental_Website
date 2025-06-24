@@ -25,8 +25,10 @@ import MessageTable from "./components/MessageTable";
 
 export default function App(): JSX.Element {
   const user = useAuthStore((state) => state.user);
+  // const checkingAuth = useAuthStore((state)=>state.checkingAuth)
   const isAdmin = user?.role === 'admin';
 
+  // if(checkingAuth) return <p>..loading</p>
   return (
     <BrowserRouter>
       {!isAdmin && <Navbar />}

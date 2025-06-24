@@ -15,7 +15,7 @@ const carSchema = mongoose.Schema({
         type:String,
         required:true,
         minlength:[10,"Description should be of atleast 10 characters"],
-        maxlength:[100,"Description should be not more than 100 characters"]
+        maxlength:[200,"Description should be not more than 200 characters"]
     },
     rent:{
         type:Number,

@@ -1,23 +1,26 @@
 import type { JSX } from "react";
 import { Link } from "react-router-dom";
 
+
 export interface CardDetail {
     id?:number,
     imgUrl: string;
     title: string;
-    head: string;
+    seats?:number,
+    rent?:number,
     desc: string;
     btnText: string;
     navigateTo?:string,
 }
 
-function Card({ imgUrl, title, head, desc, btnText }: CardDetail): JSX.Element {
+function Card({ imgUrl, title, seats ,rent, desc, btnText }: CardDetail): JSX.Element {
+    // console.log(`../../..${imgUrl}`)
     return (
         <div className="max-w-sm bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 m-3 border border-gray-200">
             {/* ImageBox */}
             <div className="overflow-hidden">
                 <img
-                    src={imgUrl}
+                    src={`../../..${imgUrl}`}
                     alt="card image"
                     className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                 />
@@ -26,7 +29,11 @@ function Card({ imgUrl, title, head, desc, btnText }: CardDetail): JSX.Element {
             {/* TextBox */}
             <div className="p-5">
                 <h2 className="text-xl font-semibold mb-2 text-gray-800">{title}</h2>
-                <h3 className="text-md font-bold text-blue-600 mb-1">{head}</h3>
+                <div className="flex justify-center gap-4">
+                    <h3 className="text-md  text-blue-600 mb-1">{rent?"Rent : ":""}{rent}</h3>
+                    <p>{seats?"Seats : ":""}{seats}</p>
+                </div>
+                
                 <p className="text-gray-600 mb-4">{desc}</p>
 
                 <Link to =  "/rentalForm"> 
