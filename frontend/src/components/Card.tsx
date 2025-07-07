@@ -14,15 +14,14 @@ export interface CardDetail {
 }
 
 function Card({ imgUrl, title, seats ,rent, desc, btnText }: CardDetail): JSX.Element {
-    // console.log(`../../..${imgUrl}`)
     return (
         <div className="max-w-sm bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 m-3 border border-gray-200">
             {/* ImageBox */}
             <div className="overflow-hidden">
                 <img
-                    src={`../../..${imgUrl}`}
+                    src={`${imgUrl}`}
                     alt="card image"
-                    className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                    className="w-full h-56 object-cover hover:scale-105 transition-transform duration-300"
                 />
             </div>
 

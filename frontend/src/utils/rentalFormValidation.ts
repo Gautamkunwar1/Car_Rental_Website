@@ -1,14 +1,14 @@
 export type FormData={
-    fname:string,
-    lname:string,
-    phone:number,
+    userName:string,
+    lname?:string,
+    phoneNo:number,
     passenger:number,
     vehicleName:string,
     pickupDate :string,
-    pickuptime:string,
+    pickupTime:string,
     days:number,
     dl:File|null,
-    check:boolean,
+    check?:boolean ,
 }
 
 export type Errors = {
@@ -26,11 +26,11 @@ export type Errors = {
 
 export function validateRentalForm(data:FormData):Errors{
     const errors:Errors ={};
-    if(!data.fname.trim() || data.fname.length<4){
+    if(!data.userName.trim() || data.userName.length<4){
         errors.fname = "Insert a valid name";
     }
 
-    if(!data.phone || data.phone.toString().length<10){
+    if(!data.phoneNo || data.phoneNo.toString().length<10){
         errors.phone = "Provide a valid phone number";
     }
     if(!data.passenger || data.passenger<=0){
@@ -42,7 +42,7 @@ export function validateRentalForm(data:FormData):Errors{
     if(!data.pickupDate ){
         errors.pickupDate="Pickup Date field cannot be sent empty";
     }
-    if(!data.pickuptime ){
+    if(!data.pickupTime ){
         errors.pickupTime="Pickup Time field cannot be sent empty";
     }
     if(!data.days ||data.days>=10){
